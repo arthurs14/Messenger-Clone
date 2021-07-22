@@ -44,10 +44,10 @@ const Chats = () => {
     .catch(() => {
       let formData = new FormData();
       formData.append('email', user.email);
-      formData.append('username', user.displayName);
+      formData.append('username', user.email);
       formData.append('secret', user.uid);
 
-      getFile(user.photoUrl)
+      getFile(user.photoURL)
         .then((avatar) => {
           formData.append('avatar', avatar, avatar.name);
 
@@ -62,6 +62,8 @@ const Chats = () => {
     });
   }, [user, history]);
 
+  if (!user || loading) return 'Loading...';
+
   return (
     <div className="chats-page">
       <div className="nav-bar">
@@ -73,10 +75,11 @@ const Chats = () => {
         </div>
       </div>
 
-      <ChatEngine 
-        projectId={chatEngine}
-        userName="."
-        userSecret="."
+      <ChatEngine
+        height="calc(100vh - 66px" 
+        projectID={chatEngine}
+        userName={user.email}
+        userSecret={user.uid}
       />
     </div>
   );
